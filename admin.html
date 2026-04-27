@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Santane | Yönetim Paneli</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div class="login-wrap" id="loginScreen" style="display:none">
+    <form class="login-box" onsubmit="handleLogin(event)">
+      <h1>SANTANE</h1>
+      <p>Yönetim Paneline Giriş</p>
+      <div class="form-group">
+        <label>Kullanıcı Adı</label>
+        <input type="text" id="loginUser" required autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Şifre</label>
+        <input type="password" id="loginPass" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-primary">GİRİŞ YAP</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-layout" id="adminPanel" style="display:none">
+
+    <!-- MOBILE TOGGLE -->
+    <button class="admin-menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">SANTANE</div>
+      <nav class="sidebar-nav">
+        <a href="#" data-section="dashboard" class="active" onclick="event.preventDefault();switchSection('dashboard')">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          Dashboard
+        </a>
+        <a href="#" data-section="products" onclick="event.preventDefault();switchSection('products')">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h8v2H6zm10 0h2v2h-2zm-6-4h8v2h-8z"/></svg>
+          Ürünler
+        </a>
+        <a href="#" data-section="categories" onclick="event.preventDefault();switchSection('categories')">
+          <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"/></svg>
+          Kategoriler
+        </a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="index.html">← Siteye Dön</a>
+        <a href="#" onclick="event.preventDefault();handleLogout()" style="margin-top:8px">Çıkış Yap</a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+      <!-- DASHBOARD -->
+      <div class="admin-section active" id="section-dashboard">
+        <div class="admin-header">
+          <h1>Dashboard</h1>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num" id="statProducts">0</div>
+            <div class="stat-label">Toplam Ürün</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="statCategories">0</div>
+            <div class="stat-label">Kategori</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="statValue">₺0</div>
+            <div class="stat-label">Toplam Değer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="admin-section" id="section-products">
+        <div class="admin-header">
+          <h1>Ürün Yönetimi</h1>
+          <button class="btn-add" onclick="openAddProduct()">+ Yeni Ürün</button>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr><th>Görsel</th><th>Ürün Adı</th><th>Kategori</th><th>Fiyat</th><th>İşlem</th></tr>
+          </thead>
+          <tbody id="productsTbody"></tbody>
+        </table>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div class="admin-section" id="section-categories">
+        <div class="admin-header">
+          <h1>Kategori Yönetimi</h1>
+          <button class="btn-add" onclick="openAddCategory()">+ Yeni Kategori</button>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr><th>Kategori Adı</th><th>Ürün Sayısı</th><th>İşlem</th></tr>
+          </thead>
+          <tbody id="categoriesTbody"></tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- PRODUCT MODAL -->
+  <div class="admin-modal-overlay" id="productModal" onclick="if(event.target===this)closeAdminModal('productModal')">
+    <div class="admin-modal">
+      <button class="modal-close" onclick="closeAdminModal('productModal')">&times;</button>
+      <h2 id="productModalTitle">Yeni Ürün Ekle</h2>
+      <div class="form-group">
+        <label>Ürün Adı</label>
+        <input type="text" id="prodName" placeholder="Ürün adını girin">
+      </div>
+      <div class="form-group">
+        <label>Fiyat (₺)</label>
+        <input type="number" id="prodPrice" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label>Kategori</label>
+        <select id="prodCategory"></select>
+      </div>
+      <div class="form-group">
+        <label>Açıklama</label>
+        <textarea id="prodDesc" placeholder="Ürün açıklaması..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Ürün Görseli</label>
+        <input type="file" id="prodImage" accept="image/*" onchange="previewImage(this)">
+        <img class="img-preview" id="imgPreview" alt="Önizleme">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="saveProduct()">Kaydet</button>
+        <button class="btn-secondary" onclick="closeAdminModal('productModal')">İptal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY MODAL -->
+  <div class="admin-modal-overlay" id="categoryModal" onclick="if(event.target===this)closeAdminModal('categoryModal')">
+    <div class="admin-modal">
+      <button class="modal-close" onclick="closeAdminModal('categoryModal')">&times;</button>
+      <h2 id="categoryModalTitle">Yeni Kategori Ekle</h2>
+      <div class="form-group">
+        <label>Kategori Adı</label>
+        <input type="text" id="catName" placeholder="Kategori adını girin">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="saveCategory()">Kaydet</button>
+        <button class="btn-secondary" onclick="closeAdminModal('categoryModal')">İptal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toastEl"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

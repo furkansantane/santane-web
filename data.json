@@ -1,0 +1,40 @@
+{
+  "categories": [
+    { "id": "cat1", "name": "Kehribar", "slug": "kehribar" },
+    { "id": "cat2", "name": "Kuka", "slug": "kuka" },
+    { "id": "cat3", "name": "Oltu Taşı", "slug": "oltu-tasi" },
+    { "id": "cat4", "name": "Özel Koleksiyon", "slug": "ozel-koleksiyon" }
+  ],
+  "products": [
+    {
+      "id": "p1", "name": "Altın Kehribar Tesbih", "price": 2500,
+      "categoryId": "cat1", "description": "Doğal Baltık kehribarından el yapımı 33'lük tesbih. Altın sarısı tonlarıyla zarafetin simgesi.",
+      "image": "assets/images/kehribar1.png", "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "p2", "name": "Damla Kehribar Özel Seri", "price": 4200,
+      "categoryId": "cat1", "description": "Nadir bulunan damla formlu kehribar tanelerden özenle dizilmiş koleksiyon parçası.",
+      "image": "assets/images/kehribar2.png", "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "p3", "name": "Kuka Tesbih Klasik", "price": 1800,
+      "categoryId": "cat2", "description": "Geleneksel kuka ağacından üretilmiş, doğal dokusuyla öne çıkan klasik 33'lük tesbih.",
+      "image": "assets/images/kuka1.png", "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "p4", "name": "Kuka İşlemeli Tesbih", "price": 3500,
+      "categoryId": "cat2", "description": "Usta ellerden çıkmış, gümüş işlemeli kuka tesbih. Her tanesi ayrı bir sanat eseri.",
+      "image": "assets/images/kuka2.png", "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "p5", "name": "Oltu Taşı Tesbih", "price": 2100,
+      "categoryId": "cat3", "description": "Erzurum oltu taşından üretilmiş, hafif ve şık 33'lük tesbih. Siyahın asaleti.",
+      "image": "assets/images/oltu1.png", "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "p6", "name": "Oltu Taşı Gümüş İşlemeli", "price": 5800,
+      "categoryId": "cat3", "description": "El yapımı gümüş kakma detaylı oltu taşı tesbih. Koleksiyonerlere özel limitli üretim.",
+      "image": "assets/images/oltu1.png", "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
