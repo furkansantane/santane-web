@@ -71,16 +71,22 @@ img { max-width:100%; height:auto; display:block; }
   color:var(--text-secondary);
   transition:color var(--transition);
 }
-.top-bar a:hover { color:var(--whatsapp); }
-.top-bar .wa-icon {
-  width:18px; height:18px;
-  fill:var(--whatsapp);
-  flex-shrink:0;
-}
+.top-bar a:hover { color:var(--gold); }
 .top-bar .phone-icon {
   width:14px; height:14px;
   fill:var(--gold);
   flex-shrink:0;
+}
+.top-bar-divider {
+  color:var(--text-muted);
+  font-size:0.7rem;
+}
+.top-bar-slogan {
+  font-family:'Playfair Display',serif;
+  font-size:0.7rem;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-transform:uppercase;
 }
 
 /* ===== HEADER ===== */
@@ -107,8 +113,16 @@ img { max-width:100%; height:auto; display:block; }
   color:var(--gold);
   letter-spacing:3px;
   text-transform:uppercase;
+  display:flex;
+  align-items:center;
 }
-.logo img { height:40px; }
+.logo img {
+  height:42px;
+  border-radius:var(--radius);
+}
+.logo span {
+  letter-spacing:3px;
+}
 .nav { display:flex; align-items:center; gap:32px; }
 .nav a {
   font-size:0.8rem;
@@ -129,6 +143,8 @@ img { max-width:100%; height:auto; display:block; }
 }
 .nav a:hover { color:var(--gold); }
 .nav a:hover::after { width:100%; }
+.nav-wa { color:var(--whatsapp) !important; }
+.nav-wa:hover { color:#1ebe57 !important; }
 
 /* Hamburger */
 .hamburger {
@@ -201,9 +217,13 @@ img { max-width:100%; height:auto; display:block; }
   padding:40px 20px;
 }
 .hero-logo {
-  width:120px;
+  width:100px;
+  height:100px;
   margin:0 auto 24px;
   opacity:0.9;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--gold-glow);
 }
 .hero-subtitle {
   font-family:'Inter',sans-serif;
@@ -567,16 +587,53 @@ img { max-width:100%; height:auto; display:block; }
 .modal-info h2 { font-size:1.6rem; margin-bottom:12px; }
 .modal-info .product-price { font-size:1.5rem; margin-bottom:16px; display:block; }
 .modal-info p { color:var(--text-secondary); font-size:0.9rem; line-height:1.8; margin-bottom:24px; }
-.modal-info .btn-wa { padding:14px 28px; font-size:0.85rem; }
+
+/* ===== FLOATING WHATSAPP BUTTON ===== */
+.whatsapp-float {
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:150;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:var(--whatsapp);
+  color:#fff;
+  padding:14px 22px;
+  border-radius:50px;
+  font-size:0.85rem;
+  font-weight:600;
+  box-shadow:0 4px 20px rgba(37,211,102,0.4);
+  transition:all 0.3s ease;
+  text-decoration:none;
+}
+.whatsapp-float:hover {
+  background:#1ebe57;
+  transform:scale(1.06);
+  box-shadow:0 6px 28px rgba(37,211,102,0.5);
+  color:#fff;
+}
+.whatsapp-float svg {
+  width:24px;
+  height:24px;
+  fill:#fff;
+  flex-shrink:0;
+}
+.wa-float-text {
+  white-space:nowrap;
+}
+
+@keyframes wa-pulse {
+  0%, 100% { box-shadow:0 4px 20px rgba(37,211,102,0.4); }
+  50% { box-shadow:0 4px 30px rgba(37,211,102,0.7); }
+}
+.whatsapp-float { animation:wa-pulse 2s ease-in-out infinite; }
+.whatsapp-float:hover { animation:none; }
 
 /* ===== ANIMATIONS ===== */
 @keyframes fadeInUp {
   from { opacity:0; transform:translateY(30px); }
   to { opacity:1; transform:translateY(0); }
-}
-@keyframes shimmer {
-  0% { background-position:-200% 0; }
-  100% { background-position:200% 0; }
 }
 .animate-on-scroll {
   opacity:0;
@@ -608,6 +665,10 @@ img { max-width:100%; height:auto; display:block; }
   .modal-body { grid-template-columns:1fr; }
   .modal-img { max-height:300px; }
   .section { padding:60px 0; }
+  .whatsapp-float { padding:12px 18px; font-size:0.8rem; bottom:16px; right:16px; }
+  .whatsapp-float svg { width:20px; height:20px; }
+  .top-bar-slogan { display:none; }
+  .top-bar-divider { display:none; }
 }
 @media (max-width:480px) {
   .products-grid { grid-template-columns:1fr; gap:16px; }
@@ -616,6 +677,8 @@ img { max-width:100%; height:auto; display:block; }
   .btn-gold { padding:12px 28px; font-size:0.75rem; }
   .section-title { font-size:1.6rem; }
   .container { padding:0 16px; }
+  .wa-float-text { display:none; }
+  .whatsapp-float { padding:14px; border-radius:50%; }
 }
 
 /* ===== SCROLLBAR ===== */

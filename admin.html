@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Santane | Yönetim Paneli</title>
+  <title>sanTane | Yönetim Paneli</title>
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
@@ -51,6 +51,7 @@
         </a>
       </nav>
       <div class="sidebar-bottom">
+        <a href="#" onclick="event.preventDefault();exportJSON()" class="export-link">📥 JSON Dışa Aktar</a>
         <a href="index.html">← Siteye Dön</a>
         <a href="#" onclick="event.preventDefault();handleLogout()" style="margin-top:8px">Çıkış Yap</a>
       </div>
@@ -63,6 +64,7 @@
       <div class="admin-section active" id="section-dashboard">
         <div class="admin-header">
           <h1>Dashboard</h1>
+          <button class="btn-add" onclick="exportJSON()" style="background:var(--gold-dark)">📥 JSON İndir</button>
         </div>
         <div class="stats-grid">
           <div class="stat-card">
@@ -133,8 +135,9 @@
         <textarea id="prodDesc" placeholder="Ürün açıklaması..."></textarea>
       </div>
       <div class="form-group">
-        <label>Ürün Görseli</label>
-        <input type="file" id="prodImage" accept="image/*" onchange="previewImage(this)">
+        <label>Görsel URL (veya dosya yükle)</label>
+        <input type="text" id="prodImageUrl" placeholder="https://... görsel linki">
+        <input type="file" id="prodImage" accept="image/*" onchange="previewImage(this)" style="margin-top:8px">
         <img class="img-preview" id="imgPreview" alt="Önizleme">
       </div>
       <div class="modal-actions">

@@ -1,4 +1,4 @@
-// ===== SANTANE ADMIN (API Version) =====
+// ===== SANTANE ADMIN =====
 document.addEventListener('DOMContentLoaded', () => {
   if (!SantaneData.isLoggedIn()) {
     showLogin();
@@ -91,6 +91,7 @@ async function openAddProduct() {
   document.getElementById('prodName').value = '';
   document.getElementById('prodPrice').value = '';
   document.getElementById('prodDesc').value = '';
+  document.getElementById('prodImageUrl').value = '';
   document.getElementById('prodImage').value = '';
   document.getElementById('imgPreview').style.display = 'none';
   await populateCategorySelect();
@@ -104,7 +105,8 @@ async function editProduct(id) {
   document.getElementById('productModalTitle').textContent = 'Ürün Düzenle';
   document.getElementById('prodName').value = p.name;
   document.getElementById('prodPrice').value = p.price;
-  document.getElementById('prodDesc').value = p.description;
+  document.getElementById('prodDesc').value = p.description || '';
+  document.getElementById('prodImageUrl').value = p.image || '';
   document.getElementById('prodImage').value = '';
   const preview = document.getElementById('imgPreview');
   if (p.image) { preview.src = p.image; preview.style.display = 'block'; }
@@ -126,6 +128,7 @@ async function saveProduct() {
   const price = document.getElementById('prodPrice').value;
   const categoryId = document.getElementById('prodCategory').value;
   const description = document.getElementById('prodDesc').value.trim();
+  const imageUrl = document.getElementById('prodImageUrl').value.trim();
   const fileInput = document.getElementById('prodImage');
 
   if (!name || !price || !categoryId) { toast('Lütfen tüm alanları doldurun.', true); return; }
@@ -137,6 +140,8 @@ async function saveProduct() {
   formData.append('description', description);
   if (fileInput.files && fileInput.files[0]) {
     formData.append('image', fileInput.files[0]);
+  } else if (imageUrl) {
+    formData.append('imageUrl', imageUrl);
   }
 
   try {
@@ -229,6 +234,27 @@ async function confirmDeleteCategory(id) {
   }
 }
 
+// ===== JSON EXPORT =====
+async function exportJSON() {
+  try {
+    const data = await SantaneData.exportAllData();
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `santane_veriler_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('JSON dosyası indirildi!');
+  } catch (err) {
+    toast('Export hatası: ' + err.message, true);
+  }
+}
+
+// ===== HELPERS =====
 function previewImage(input) {
   const preview = document.getElementById('imgPreview');
   if (input.files && input.files[0]) {
